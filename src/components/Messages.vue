@@ -1,19 +1,14 @@
 <template>
   <div class="wrapper">
     <div class="messages">
-      <div class="post">
+      <div v-for="message in messages" :key="message.date" class="post">
         <div class="post-header">
-          <span>03:55, 1 сентября 1986г.</span> /
-          <span style="font-weight: bold">Успенский</span> /
-          <a href="http://happy-kids.ru">http://happy-kids.ru</a>
+          <span>{{message.date}}</span> /
+          <span style="font-weight: bold">{{message.authorName}}</span> /
+          <a href={{message.authorUrl}}>{{message.authorUrl}}</a>
         </div>
         <div class="post-text">
-          Я был когда-то странной\nИгрушкой безымянной,\nК которой в
-          магазине\nНикто не подойдет.\nТеперь я Чебурашка,\nМне каждая
-          дворняжка\nПри встрече сразу\nЛапу подает!\n\nМне не везло сначала,\nИ
-          даже так бывало:\nКо мне на день рожденья\nНикто не приходил.\nТеперь
-          я вместе с Геной\nОн не обыкновенный,\nОн самый лучший\nВ мире
-          крокодил!
+          {{message.content}}
         </div>
         <div class="post-line"></div>
       </div>
@@ -22,7 +17,22 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
+  data() {
+    return {
+      messages: []
+    }
+  },
+  async created() {
+    try {
+      const info = await axios.get('http://localhost:3000/messages')
+      this.messages = info.data
+    } catch (e) {
+      console.log(e)
+    }
+  }
 };
 </script>
 
