@@ -16,10 +16,9 @@
         </div>
         <div class="post-text">
           {{ 
-            function() {
-              return message.content.replace(message.content.substr(0, 3), `ХУЙ`) 
-            } ()
-            }}
+            message.content.replace(
+              message.content.substr(0,3), `<mark>${message.content.substr(0,3)}</mark>`
+            ) }}
         </div>
         <div class="post-line"></div>
       </div>
@@ -75,18 +74,7 @@ export default {
         }, 1000);
       }
     },
-  },
-  computed: {
-    contentHandler: function () {
-      console.log("click");
-      let message = document.querySelector(".post-text").innerHTML;
-      let newMessage = message.replace(
-        message.substr(2, 3),
-        `<mark>${message.substr(2, 3)}</mark>`
-      );
-      return (message = newMessage);
-    },
-  },
+  }
 };
 </script>
 
