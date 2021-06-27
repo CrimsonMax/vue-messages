@@ -3,12 +3,12 @@
     <div class="messages">
       <div v-for="message in messages" :key="message.date" class="post">
         <div class="post-header">
-          <span>{{message.date}}</span> /
-          <span style="font-weight: bold">{{message.authorName}}</span> /
-          <a href={{message.authorUrl}}>{{message.authorUrl}}</a>
+          <span>{{ message.date }}</span> /
+          <span style="font-weight: bold">{{ message.authorName }}</span> /
+          <a href="{{message.authorUrl}}">{{ message.authorUrl }}</a>
         </div>
         <div class="post-text">
-          {{message.content}}
+          {{ message.content }}
         </div>
         <div class="post-line"></div>
       </div>
@@ -17,22 +17,48 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 
 export default {
   data() {
     return {
-      messages: []
-    }
+      messages: [],
+      num: 10,
+    };
   },
   async created() {
     try {
-      const info = await axios.get('http://localhost:3000/messages')
-      this.messages = info.data
+      const info = await axios.get(
+        `http://localhost:3000/messages?_limit=${this.num}`
+      );
+      this.messages = info.data;
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  },
+  // methods: {
+    // v-on:scroll="pagination"
+  //   pagination: function () {
+  //     console.log("scrollTop", document.querySelector(".wrapper").scrollTop);
+  //     console.log(
+  //       "scrollHeight",
+  //       document.querySelector(".wrapper").scrollHeight
+  //     );
+  //     if (
+  //       document.querySelector(".wrapper").scrollTop +
+  //         document.querySelector(".wrapper").offsetHeight ===
+  //       document.querySelector(".wrapper").scrollHeight
+  //     ) {
+  //       this.num += 10;
+  //       debugger;
+  //       console.log(this.num);
+  //       const NewInfo = axios.get(
+  //         `http://localhost:3000/messages?_limit=${this.num}`
+  //       );
+  //       this.messages = NewInfo.data;
+  //     }
+  //   },
+  // },
 };
 </script>
 
@@ -44,6 +70,10 @@ export default {
   box-shadow: 4px 4px 8px 0px rgb(34 60 80 / 40%);
   overflow-y: scroll;
   background-color: floralwhite;
+}
+
+.messages {
+  height: 100%;
 }
 
 .post {
