@@ -15,7 +15,11 @@
           <a href="{{message.authorUrl}}">{{ message.authorUrl }}</a>
         </div>
         <div class="post-text">
-          {{ message.content }}
+          {{ 
+            function() {
+              return message.content.replace(message.content.substr(0, 3), `ХУЙ`) 
+            } ()
+            }}
         </div>
         <div class="post-line"></div>
       </div>
@@ -39,9 +43,9 @@ import axios from "axios";
 export default {
   data() {
     return {
-      messages: [],
-      num: 10,
-      loader: false,
+      messages: [], // массив сообщений
+      num: 10, // изначальное число сообщений
+      loader: false, // лоадер
     };
   },
   async beforeMount() {
@@ -72,6 +76,17 @@ export default {
       }
     },
   },
+  computed: {
+    contentHandler: function () {
+      console.log("click");
+      let message = document.querySelector(".post-text").innerHTML;
+      let newMessage = message.replace(
+        message.substr(2, 3),
+        `<mark>${message.substr(2, 3)}</mark>`
+      );
+      return (message = newMessage);
+    },
+  },
 };
 </script>
 
@@ -83,10 +98,6 @@ export default {
   box-shadow: 4px 4px 8px 0px rgb(34 60 80 / 40%);
   overflow-y: scroll;
   background-color: floralwhite;
-  /* display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center; */
 }
 
 .messages {
